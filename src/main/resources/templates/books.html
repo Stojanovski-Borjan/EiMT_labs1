@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Title</title>
+    <link rel="stylesheet" href="/assets/vendor/bootstrap/bootstrap.min.css">
+    <script src="/assets/vendor/jquery/jquery.min.js"></script>
+    <script src="/assets/vendor/jquery-migrate/jquery-migrate.min.js"></script>
+    <script src="/assets/vendor/popper.min.js"></script>
+    <script src="/assets/vendor/bootstrap/bootstrap.min.js"></script>
+</head>
+<body>
+<nav class="navbar navbar-expand-md navbar-dark bg-dark">
+    <div class="container">
+        <a class="navbar-brand" href="/home">EMT Book SHOP</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault"
+                aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse justify-content-end" id="navbarsExampleDefault">
+            <ul class="navbar-nav m-auto">
+                <li class="nav-item m-auto">
+                    <a class="nav-link" href="/home">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/category">Categories</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" href="/books">Books</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="contact.html">Cart <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/contact">Contact</a>
+                </li>
+            </ul>
+
+            <form class="form-inline my-2 my-lg-0">
+                <div class="input-group input-group-sm">
+                    <input type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm"
+                           placeholder="Search...">
+                    <div class="input-group-append">
+                        <button type="button" class="btn btn-secondary btn-number">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+                </div>
+                <a class="btn btn-success btn-sm ml-3" href="cart.html">
+                    <i class="fa fa-shopping-cart"></i> Cart
+                    <span class="badge badge-light">3</span>
+                </a>
+            </form>
+        </div>
+    </div>
+</nav>
+
+<div class="pt-2 col-md-8 offset-2" th:if="${param.error}">
+    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+        <p class="text-center" th:text="${param.error}"></p>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+</div>
+
+<div class="container pt-5">
+    <div class="row">
+        <div class="card-group">
+            <div class="card m-2" th:each="book : ${books}">
+                <img th:src="${book.getImageBase64()}" class="card-img-top" alt="image" width="60" height="50%">
+                <div class="card-body">
+                    <a th:href="@{/books/{id}/show(id=${book.getId()})}">
+                        <h5 class="card-title" th:text="${book.getBookName()}"></h5>
+                    </a>
+                    <p class="card-text" th:text="${book.getBookDescription()}"></p>
+                    <p>Достапна количина: <span class="" th:text="${book.getBookQuantity()}"></span></p>
+                    <p class="card-text">Категорија: <small class="text-muted" th:text="${book.getCategory() != null} ? ${book.getCategory().getCategoryName()} : 'No Category'"></small></p>
+                    <div class="col-md-12 pt-2">
+                        <div class="row">
+                            <a class="btn col-md-6 btn-outline-warning" th:href="@{/books/{id}/edit(id=${book.getId()})}">Edit</a>
+                            <form class="col-md-6" th:action="@{/books/{id}/delete(id=${book.getId()})}" th:method="delete">
+                                <button type="submit" class="btn  btn-outline-danger"><i class="fa fa-trash">Delete</i></button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            </a>
+        </div>
+        </div>
+    </div>
+</div>
+
+<div class="container pt-2 pb-5">
+    <div class="row">
+        <a href="/books/add-new" class="col-md-10 offset-1 btn btn-outline-success">Add New Book!</a>
+    </div>
+</div>
+
+<div class="jumbotron text-center" style="margin-bottom(:0)">
+    <p>Borjan Stojanovski 173253</p>
+</div>
+</body>
+</html>
+

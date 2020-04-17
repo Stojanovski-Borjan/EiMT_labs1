@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="/assets/vendor/bootstrap/bootstrap.min.css">
+    <script src="/assets/vendor/jquery/jquery.min.js"></script>
+    <script src="/assets/vendor/jquery-migrate/jquery-migrate.min.js"></script>
+    <script src="/assets/vendor/popper.min.js"></script>
+    <script src="/assets/vendor/bootstrap/bootstrap.min.js"></script>
+</head>
+<body>
+<!--NAVBAR-->
+<nav class="navbar navbar-expand-md navbar-dark bg-dark">
+    <div class="container">
+        <a class="navbar-brand" href="/home">EMT Book SHOP</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault"
+                aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse justify-content-end" id="navbarsExampleDefault">
+            <ul class="navbar-nav m-auto">
+                <li class="nav-item m-auto">
+                    <a class="nav-link" href="/home">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/category">Categories</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" href="/books">Books</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="contact.html">Cart <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/contact">Contact</a>
+                </li>
+            </ul>
+
+            <form class="form-inline my-2 my-lg-0">
+                <div class="input-group input-group-sm">
+                    <input type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm"
+                           placeholder="Search...">
+                    <div class="input-group-append">
+                        <button type="button" class="btn btn-secondary btn-number">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+                </div>
+                <a class="btn btn-success btn-sm ml-3" href="cart.html">
+                    <i class="fa fa-shopping-cart"></i> Cart
+                    <span class="badge badge-light">3</span>
+                </a>
+            </form>
+        </div>
+    </div>
+</nav>
+<!--END NAVBAR-->
+
+<!--FORM-->
+<div class="container pt-5">
+    <div class="row">
+        <div class="col-5">
+            <form action="/books"
+                  method="post"
+                  th:object="${book}"
+                  enctype="multipart/form-data"
+            >
+                <input type="text" hidden="hidden" name="id" th:value="${book.getId()}">
+                <div class="form-group">
+                    <label for="bookName">Book name</label>
+                    <small class="text-danger" th:if="${#fields.hasErrors('bookName')}"
+                           th:errors="*{bookName}"></small>
+                    <input type="text"
+                           class="form-control"
+                           id="bookName"
+                           name="bookName"
+                           placeholder="Enter Book Name"
+                           th:field="*{bookName}">
+
+                </div>
+                <div class="form-group">
+                    <label for="bookQuantity">Book quantity</label>
+                    <small class="text-danger" th:if="${#fields.hasErrors('bookQuantity')}"
+                           th:errors="*{bookQuantity}"></small>
+                    <input type="number"
+                           class="form-control"
+                           id="bookQuantity"
+                           name="bookQuantity"
+                           placeholder="Enter Book Quatity"
+                           th:field="*{bookQuantity}">
+                </div>
+                <div class="form-group">
+                    <label for="bookDescription">Description:</label>
+                    <small class="text-danger" th:if="${#fields.hasErrors('bookDescription')}"
+                           th:errors="*{bookDescription}"></small>
+                    <textarea class="form-control"
+                              rows="5"
+                              id="bookDescription"
+                              name="bookDescription"
+                              placeholder="Some description..."
+                              th:text="${book.getBookDescription()}"
+                              th:field="*{bookDescription}"></textarea>
+                </div>
+                <div class="form-group">
+                    <label>Category: </label>
+                    <select th:field="*{category.id}" class="form-control">
+                        <option
+                                th:selected="${book.getCategory() != null && book.getCategory().getId() == category.getId()}"
+                                th:each="category : ${categories}"
+                                th:value="${category.getId()}"
+                                th:text="${category.getCategoryName()}"
+
+                        ></option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="image">Image</label>
+                    <input name="image" id="image" class="form-control" type="file" />
+                </div>
+
+                <button class="btn btn-primary" type="submit">Submit</button>
+                <a type="button" class="btn btn-primary" href="/books">Back</a>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!--END FORM-->
+</body>
+</html>
